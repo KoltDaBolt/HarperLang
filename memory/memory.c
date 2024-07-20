@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include "memory.h"
 
-void* reallocate(void* pointer, size_t oldSize, size_t newSize){
+void* reallocate(void* dataPointer, size_t oldSize, size_t newSize){
     if(newSize == 0){
-        free(pointer);
+        free(dataPointer);
         return NULL;
     }
 
-    void* result = realloc(pointer, newSize);
+    void* result = realloc(dataPointer, newSize);
     if(result == NULL) exit(1);
     return result;
 }

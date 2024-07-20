@@ -8,7 +8,7 @@ CC = gcc
 CFLAGS = -Wall -Werror
 
 # Directories
-SRC_DIRS = . chunk memory debug value
+SRC_DIRS = . chunk memory debug value vm
 OBJ_DIR = obj
 
 # Source files
@@ -18,7 +18,7 @@ SRC_FILES = $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
 OBJ_FILES = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 # Executable name
-TARGET = harperlangc
+TARGET = harperlang
 
 # Default target
 all: $(TARGET)
