@@ -8,7 +8,7 @@ CC = gcc
 CFLAGS = -Wall -Werror
 
 # Directories
-SRC_DIRS = . chunk memory debug value vm scanner compiler
+SRC_DIRS = . chunk memory debug value vm scanner compiler object
 OBJ_DIR = obj
 
 # Source files

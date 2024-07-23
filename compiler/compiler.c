@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../common.h"
 #include "../scanner/scanner.h"
 #include "../compiler/compiler.h"
-#include "../common.h"
+#include "../value/value.h"
 
 #ifdef DEBUG_PRINT_CODE
 #include "../debug/debug.h"
@@ -42,6 +43,7 @@ static void grouping();
 static void unary();
 static void binary();
 static void literal();
+static void string();
 
 ParseRule rules[] = {
   [TOKEN_LEFT_PAREN]    = {grouping, NULL,   PREC_NONE},
@@ -64,7 +66,7 @@ ParseRule rules[] = {
   [TOKEN_LESS]          = {NULL,     binary, PREC_COMPARISON},
   [TOKEN_LESS_EQUAL]    = {NULL,     binary, PREC_COMPARISON},
   [TOKEN_IDENTIFIER]    = {NULL,     NULL,   PREC_NONE},
-  [TOKEN_STRING]        = {NULL,     NULL,   PREC_NONE},
+  [TOKEN_STRING]        = {string,   NULL,   PREC_NONE},
   [TOKEN_NUMBER]        = {number,   NULL,   PREC_NONE},
   [TOKEN_AND]           = {NULL,     NULL,   PREC_NONE},
   [TOKEN_OR]            = {NULL,     NULL,   PREC_NONE},
@@ -247,6 +249,10 @@ static void literal(){
         case TOKEN_NULL: emitByte(OP_NULL); break;
         default: return;
     }
+}
+
+static void string(){
+    emitConstant(OBJ_VAL(copyString(parser.previous.start + 1, parser.previous.length - 2)));
 }
 
 bool compile(const char* source, Chunk* chunk){
