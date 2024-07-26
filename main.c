@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
     }else if(argc == 2){
         runFile(argv[1]);
     }else{
-        fprintf(stderr, "Usage: harperlang <PATH_TO_FILE>\n");
+        fprintf(stderr, "Usage: ./harperlang <PATH_TO_FILE>\n");
     }
 
     freeVM();

@@ -63,6 +63,7 @@ static InterpretResult run(){
             push(valueType(a operation b)); \
         }while(false)
     #define READ_STRING() AS_STRING(READ_CONSTANT())
+    #define READ_SHORT() (vm.instructionPointer += 2, (uint16_t)((vm.instructionPointer[-2] << 8) | vm.instructionPointer[-1]))
 
     for(;;){
         #ifdef DEBUG_TRACE_EXECUTION
@@ -161,6 +162,21 @@ static InterpretResult run(){
                 vm.stack[slot] = peek(0);
                 break;
             }
+            case OP_JUMP_IF_FALSE:{
+                uint16_t offset = READ_SHORT();
+                if(isFalsey(peek(0))) vm.instructionPointer += offset;
+                break;
+            }
+            case OP_JUMP:{
+                uint16_t offset = READ_SHORT();
+                vm.instructionPointer += offset;
+                break;
+            }
+            case OP_LOOP:{
+                uint16_t offset = READ_SHORT();
+                vm.instructionPointer -= offset;
+                break;
+            }
             case OP_RETURN:{
                 return INTERPRET_OK;
             }
@@ -170,6 +186,8 @@ static InterpretResult run(){
     #undef READ_BYTE
     #undef READ_CONSTANT
     #undef BINARY_OP
+    #undef READ_STRING
+    #undef READ_SHORT
 }
 
 void initVM(){

@@ -1,10 +1,9 @@
-var a = 1;
-{
-    var b = 2;
-    
-    print a;
-    print b;
+var money = 1;
+while(money <= 5){
+    print money;
+    money = money + 1;
 }
 
-print a;
-print b;
+for(var number = 6; number <= 10; number = number + 1){
+    print number;
+}
